@@ -1,0 +1,34 @@
+import { useParams } from 'react-router-dom'
+import { useRequest } from 'ahooks'
+import { getQuestionService } from '../service/question'
+
+const useLoadQuestionData = () => {
+  const { id = '' } = useParams()
+  // const [questionData, setQuestionData] = useState({})
+  // const [loaing, setLoading] = useState(true)
+  // useEffect(() => {
+  //   async function fn() {
+  //     const res = await getQuestionService(id)
+  //     setLoading(false)
+  //     setQuestionData(res)
+  //     console.log('edit page data: ', res)
+  //   }
+  //   fn()
+  // }, [])
+
+  // return { loaing, questionData }
+
+  async function load() {
+    const data = await getQuestionService(id)
+    return data
+  }
+
+  const { data, error, loading } = useRequest(load)
+  return {
+    data,
+    error,
+    loading,
+  }
+}
+
+export default useLoadQuestionData
